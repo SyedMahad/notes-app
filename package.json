@@ -1,0 +1,33 @@
+{
+  "name": "notes-app",
+  "version": "1.0.0",
+  "description": "A simple and lightweight note-taking application built with Electron JS, featuring real-time Markdown support. This application allows you to write and preview notes in Markdown, making it easy to organize your thoughts, create to-do lists, and format text with ease.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/SyedMahad/notes-app.git"
+  },
+  "keywords": [
+    "notes",
+    "taking",
+    "app",
+    "to-do",
+    "markdown"
+  ],
+  "author": "Syed Mahad Ehsan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SyedMahad/notes-app/issues"
+  },
+  "homepage": "https://github.com/SyedMahad/notes-app#readme",
+  "devDependencies": {
+    "electron": "^32.0.1"
+  },
+  "dependencies": {
+    "marked": "^14.1.0"
+  }
+}
