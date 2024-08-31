@@ -7,10 +7,45 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="editor">
-        <textarea id="markdown"></textarea>
+    <div id="container">
+        <!-- First Panel: Folders -->
+        <div id="folders-panel">
+            <h2>Folders</h2>
+            <button id="add-folder-btn">+ Add New Folder</button>
+            <ul id="folder-list"></ul>
+        </div>
+
+        <!-- Second Panel: Notes -->
+        <div id="notes-panel">
+            <h2>Notes</h2>
+            <button id="add-note-btn">+ Add New Note</button>
+            <ul id="note-list"></ul>
+        </div>
+
+        <!-- Third Panel: Editor and Preview -->
+        <!-- <div id="editor-panel-save"> -->
+            <div id="editor-panel">
+                <div id="editor">
+                    <textarea id="markdown" placeholder="Start writing your note..."></textarea>
+                </div>
+                <div id="preview">
+                    <div id="preview-content"></div>
+                </div>
+                <button id="save-note-btn">Save</button>
+            </div>
+        </div>
+    <!-- </div> -->
+
+    <!-- Modal for Folder and Note Name Input -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2>New Folder</h2>
+            <label for="folderName">Folder Name:</label>
+            <input type="text" id="folderName" name="folderName"><br>
+            <button id="save-folder-btn">Save Folder</button>
+        </div>
     </div>
-    <div id="preview"></div>
 
     <script src="renderer.js"></script>
 </body>

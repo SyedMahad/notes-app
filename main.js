@@ -58,22 +58,29 @@ ipcMain.handle('render-markdown', async (event, content) => {
   });
 });
 
-ipcMain.handle('save-file', async (event, filePath, content) => {
+ipcMain.handle('save-note', async (event, folderName, noteName, content) =>{
+  const folderPath = path.join(__dirname, 'notes', folderName);
+  const filePath = path.join(folderPath, `${noteName}.md`);
+
   return new Promise((resolve, reject) => {
-    // fs.writeFile(filePath, content, 'utf8', (err) => {
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath, {recursive: true});
+    }
+
     fs.writeFile(filePath, content, 'utf-8', (err) => {
       if (err) {
         reject(err);
       } else {
-        resolve('File saved successfully');
+        resolve("Note saved successfully");
       }
     });
   });
 });
 
-ipcMain.handle('load-file', async (event, filePath) => {
+ipcMain.handle('load-note', async (event, folderName, noteName) => {
+  const filePath = path.join(__dirname, 'notes', folderName, `${noteName}.md`);
+
   return new Promise((resolve, reject) => {
-    // fs.readFile(filePath, 'utf8', (err, data) => {
     fs.readFile(filePath, 'utf-8', (err, data) => {
       if (err) {
         reject(err);
@@ -83,4 +90,44 @@ ipcMain.handle('load-file', async (event, filePath) => {
     });
   });
 });
+
+ipcMain.handle('load-folders', async () => {
+  const notesDir = path.join(__dirname, 'notes');
+  return new Promise((resolve, reject) => {
+    fs.readdir(notesDir, (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        const folders = files.filter(file => fs.lstatSync(path.join(notesDir, file)).isDirectory());
+        resolve(folders);
+      }
+    });
+  });
+});
+
+ipcMain.handle('create-folder', async (event, folderName) => {
+  const folderPath = path.join(__dirname, 'notes', folderName);
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath);
+  }
+  return folderName;
+});
+
+ipcMain.handle('load-notes', async (event, folderName) => {
+  const folderPath = path.join(__dirname, 'notes', folderName);
+
+  return new Promise((resolve, reject) => {
+    fs.readdir(folderPath, { withFileTypes: true }, (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        const notes = files
+          .filter(file => file.isFile() && path.extname(file.name) === '.md')
+          .map(file => path.basename(file.name, '.md'));
+        resolve(notes);
+      }
+    });
+  });
+});
+
 
